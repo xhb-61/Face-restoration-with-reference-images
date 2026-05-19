@@ -69,7 +69,7 @@ The experiments showed that the main causes of face deformation are extremely we
 
 **Ref-LDM final two-stage img2img CFG sweep, selected from Concert 1-6**
 
-Each row shows `stage1` followed by Ref-LDM Stage 2 results from `cfg1.0` to `cfg10.0`.
+Each row shows the original LR crop, `stage1`, and Ref-LDM Stage 2 results from `cfg1.0` to `cfg10.0`.
 
 <img src="assets/results/refldm_selected_concert1_6_compare_stage1_cfgs.jpg" alt="Selected Ref-LDM Stage 1 and CFG sweep comparison results from Concert 1 to 6" width="920">
 

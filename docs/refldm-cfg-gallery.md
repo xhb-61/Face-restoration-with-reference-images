@@ -6,7 +6,7 @@ This gallery contains all 66 `*_compare_stage1_cfgs.jpg` comparison sheets from 
 /home/hbxu/local/ref-ldm-main/results_ref1_6_generated_gfpgan_refldm_img2img_split10_aspectpad_ref10_gpu23_20260519_133740
 ```
 
-Each comparison sheet shows `stage1` followed by Ref-LDM Stage 2 outputs from `cfg1.0` to `cfg10.0`.
+Each comparison sheet shows the original LR crop, `stage1`, and Ref-LDM Stage 2 outputs from `cfg1.0` to `cfg10.0`.
 
 ## Concert 1
 
