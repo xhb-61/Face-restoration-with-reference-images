@@ -66,9 +66,11 @@ The experiments showed that the main causes of face deformation are extremely we
 
 <img src="assets/results/faceme_restoration_contact_sheet.jpg" alt="FaceMe restoration contact sheet using generated references" width="720">
 
-**Ref-LDM img2img vs noise2img at CFG 5.0**
+**Ref-LDM final two-stage img2img CFG sweep, selected from Concert 1-6**
 
-<img src="assets/results/refldm_img2img_vs_noise2img_cfg5.jpg" alt="Ref-LDM img2img and noise2img comparison at CFG 5.0" width="520">
+Each row shows `stage1` followed by Ref-LDM Stage 2 results from `cfg1.0` to `cfg10.0`.
+
+<img src="assets/results/refldm_selected_concert1_6_compare_stage1_cfgs.jpg" alt="Selected Ref-LDM Stage 1 and CFG sweep comparison results from Concert 1 to 6" width="920">
 
 ## Code and Experiment Paths
 
