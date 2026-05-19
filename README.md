@@ -56,6 +56,20 @@ flowchart LR
 
 The experiments showed that the main causes of face deformation are extremely weak LR structure, direct non-square resizing, weak structure constraint in noise2img generation, unstable generated references, and mismatch between training-time and inference-time reference counts. The improved img2img route preserves LR structure better than noise2img and makes it easier to locate whether deformation comes from GFPGAN Stage 1 or Ref-LDM Stage 2.
 
+### Result Gallery
+
+**FaceMe-style reference expansion for one identity**
+
+<img src="assets/results/faceme_ref_expansion_ref1.jpg" alt="FaceMe-style generated reference images with ArcFace similarity scores" width="720">
+
+**FaceMe restoration outputs using generated references**
+
+<img src="assets/results/faceme_restoration_contact_sheet.jpg" alt="FaceMe restoration contact sheet using generated references" width="720">
+
+**Ref-LDM img2img vs noise2img at CFG 5.0**
+
+<img src="assets/results/refldm_img2img_vs_noise2img_cfg5.jpg" alt="Ref-LDM img2img and noise2img comparison at CFG 5.0" width="520">
+
 ## Code and Experiment Paths
 
 The experimental code and generated results are kept on the `lf2` server because the full working directories include large dependencies, checkpoints, private data, and result images.
@@ -68,7 +82,7 @@ The experimental code and generated results are kept on the `lf2` server because
 
 ## Data and Model Notice
 
-The Huawei `concert` data, face images, model checkpoints, and generated result images are not committed to this public showcase repository. The README and report keep the project reproducible at the workflow level while avoiding leakage of private data, model weights, or face images.
+The Huawei `concert` dataset, model checkpoints, and full batch result directories are not committed to this public showcase repository. Only a few selected qualitative result figures are included for project demonstration; the README and report keep the project reproducible at the workflow level while avoiding publication of private data, model weights, or bulky experiment artifacts.
 
 ## Resume-Ready Summary
 
