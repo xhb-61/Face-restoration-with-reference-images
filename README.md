@@ -51,6 +51,7 @@ flowchart LR
 | GFPGAN Stage 1 intermediate images | 66 |
 | Ref-LDM Stage 2 CFG outputs | 660 |
 | Stage comparison sheets | 66 |
+| Ref-LDM CFG comparison sheets included in this repo | 66 |
 | Safe reference count for batch experiments | 10 refs |
 | Observed upper bound in current implementation | 13 refs pass, 14 refs OOM |
 
@@ -72,6 +73,8 @@ Each row shows `stage1` followed by Ref-LDM Stage 2 results from `cfg1.0` to `cf
 
 <img src="assets/results/refldm_selected_concert1_6_compare_stage1_cfgs.jpg" alt="Selected Ref-LDM Stage 1 and CFG sweep comparison results from Concert 1 to 6" width="920">
 
+Full Ref-LDM comparison gallery: [docs/refldm-cfg-gallery.md](docs/refldm-cfg-gallery.md)
+
 ## Code and Experiment Paths
 
 The experimental code and generated results are kept on the `lf2` server because the full working directories include large dependencies, checkpoints, private data, and result images.
@@ -84,7 +87,7 @@ The experimental code and generated results are kept on the `lf2` server because
 
 ## Data and Model Notice
 
-The Huawei `concert` dataset, model checkpoints, and full batch result directories are not committed to this public showcase repository. Only a few selected qualitative result figures are included for project demonstration; the README and report keep the project reproducible at the workflow level while avoiding publication of private data, model weights, or bulky experiment artifacts.
+The Huawei `concert` dataset, model checkpoints, and full batch result directories are not committed to this public showcase repository. The repository includes qualitative showcase figures and the full set of 66 Ref-LDM CFG comparison sheets for project demonstration; the README and report keep the project reproducible at the workflow level while avoiding publication of model weights or bulky experiment artifacts.
 
 ## Resume-Ready Summary
 
