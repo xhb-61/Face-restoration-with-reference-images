@@ -75,6 +75,20 @@ Each row shows the original LR crop, `stage1`, and Ref-LDM Stage 2 results from 
 
 Full Ref-LDM comparison gallery: [docs/refldm-cfg-gallery.md](docs/refldm-cfg-gallery.md)
 
+### Ablation Study: GFPGAN + More References
+
+Two-stage ablation comparison on two test cases, showing the contribution of GFPGAN Stage 1 and additional reference images (more-refs) to Ref-LDM Stage 2 restoration quality.
+
+**Case 1**
+
+<img src="assets/results/ablation_comparison_case1.png" alt="Ablation comparison Case 1: Ref-LDM (original), Ref-LDM + more refs, GFPGAN + Ref-LDM, GFPGAN + Ref-LDM + more refs" width="920">
+
+**Case 2**
+
+<img src="assets/results/ablation_comparison_case2.png" alt="Ablation comparison Case 2: Ref-LDM (original), Ref-LDM + more refs, GFPGAN + Ref-LDM, GFPGAN + Ref-LDM + more refs" width="920">
+
+*Top-left: Ref-LDM (baseline) &nbsp;|&nbsp; Top-right: Ref-LDM + more references &nbsp;|&nbsp; Bottom-left: GFPGAN + Ref-LDM &nbsp;|&nbsp; Bottom-right: GFPGAN + Ref-LDM + more references*
+
 ## Code and Experiment Paths
 
 The experimental code and generated results are kept on the `lf2` server because the full working directories include large dependencies, checkpoints, private data, and result images.
