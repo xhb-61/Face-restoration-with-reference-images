@@ -3,6 +3,7 @@
 Reference-based blind face restoration on Huawei `concert` data. This repository is organized as a public-facing project showcase: it summarizes the motivation, technical route, experiments, engineering changes, and interview-ready takeaways of the work.
 
 > Detailed merged report: [docs/comprehensive-report.md](docs/comprehensive-report.md)
+> Latest one-step vs multi-step comparison: [docs/osediff-one-step-vs-multistep.md](docs/osediff-one-step-vs-multistep.md)
 
 ## Project Overview
 
@@ -40,6 +41,7 @@ flowchart LR
 - Implemented FaceMe-style reference expansion with Arc2Face + ControlNet and ArcFace similarity filtering.
 - Added reference-file filtering in FaceMe inference scripts to skip metadata, control maps, and contact sheets.
 - Generated per-image comparison sheets across Stage 1 and CFG 1.0 to 10.0 for faster manual evaluation.
+- Compared the original one-step ReF-OSEDiff route with a 4-step / 8-step ReF-LDM DDIM img2img route to test whether a small denoising budget can reduce one-step structural artifacts.
 
 ## Key Results
 
@@ -54,8 +56,10 @@ flowchart LR
 | Ref-LDM CFG comparison sheets included in this repo | 66 |
 | Safe reference count for batch experiments | 10 refs |
 | Observed upper bound in current implementation | 13 refs pass, 14 refs OOM |
+| ReF-OSEDiff one-step diagnostic sheet | 22 LR inputs |
+| ReF-LDM DDIM-4 / DDIM-8 comparison sheet | 22 LR inputs |
 
-The experiments showed that the main causes of face deformation are extremely weak LR structure, direct non-square resizing, weak structure constraint in noise2img generation, unstable generated references, and mismatch between training-time and inference-time reference counts. The improved img2img route preserves LR structure better than noise2img and makes it easier to locate whether deformation comes from GFPGAN Stage 1 or Ref-LDM Stage 2.
+The experiments showed that the main causes of face deformation are extremely weak LR structure, direct non-square resizing, weak structure constraint in noise2img generation, unstable generated references, mismatch between training-time and inference-time reference counts, and the limited restoration capacity of the current one-step model. The improved img2img route preserves LR structure better than noise2img and makes it easier to locate whether deformation comes from GFPGAN Stage 1 or Ref-LDM Stage 2. The latest DDIM-4 / DDIM-8 test further shows that a small multi-step denoising budget can reduce the high-contrast block artifacts seen in one-step ReF-OSEDiff outputs.
 
 ### Result Gallery
 
@@ -74,6 +78,20 @@ Each row shows the original LR crop, `stage1`, and Ref-LDM Stage 2 results from 
 <img src="assets/results/refldm_selected_concert1_6_compare_stage1_cfgs.jpg" alt="Selected Ref-LDM Stage 1 and CFG sweep comparison results from Concert 1 to 6" width="920">
 
 Full Ref-LDM comparison gallery: [docs/refldm-cfg-gallery.md](docs/refldm-cfg-gallery.md)
+
+**Original one-step ReF-OSEDiff diagnostic**
+
+The one-step route is fast, but it frequently introduces high-contrast, posterized face artifacts. GFPGAN preprocessing and wavelet color correction improve tone, but they do not fully fix the one-step structural errors.
+
+<img src="assets/results/osediff_one_step_vs_multistep/osediff_one_step_diagnostic.jpg" alt="Diagnostic comparison for original ReF-OSEDiff one-step results" width="920">
+
+**Improvement 6: ReF-LDM DDIM-4 / DDIM-8 img2img**
+
+The multi-step test uses GFPGAN Stage 1 as the img2img latent initialization, then runs ReF-LDM DDIM with 4 or 8 denoising steps. DDIM-4 and DDIM-8 reduce many of the black/white block artifacts produced by the one-step route; DDIM-4 is currently the better quality-speed compromise.
+
+<img src="assets/results/osediff_one_step_vs_multistep/refldm_ddim4_8_multistep_comparison.jpg" alt="Comparison of LQ, GFPGAN, one-step ReF-OSEDiff, ReF-LDM DDIM-4, and ReF-LDM DDIM-8 results on concert 1-6" width="920">
+
+Detailed one-step vs multi-step analysis: [docs/osediff-one-step-vs-multistep.md](docs/osediff-one-step-vs-multistep.md)
 
 ### Ablation Study: GFPGAN + More References
 
@@ -98,6 +116,7 @@ The experimental code and generated results are kept on the `lf2` server because
 | Ref-LDM experiments | `/home/hbxu/local/ref-ldm-main` | `recovered_gfpgan_two_stage_img2img/inference_two_steps_TEMPLATE.py`, `inference_two_steps_1.py` to `inference_two_steps_6.py`, `configs/refldm.yaml`, `search_cfg_scale_*.py`, `make_contact_sheet_comparison.py`, `probe_ref_oom.sh` |
 | FaceMe experiments | `/home/hbxu/local/FaceMe-main` | `generate_faceme_refs.py`, `run_ref2_6_generation_and_infer.sh`, `infer_concert1.py` to `infer_concert6.py` |
 | Final Ref-LDM result | `/home/hbxu/local/ref-ldm-main/results_ref1_6_generated_gfpgan_refldm_img2img_split10_aspectpad_ref10_gpu23_20260519_133740` | Stage 1, Stage 2 CFG outputs, and comparison sheets |
+| One-step and DDIM comparison | `/home/hbxu/local/ref-ldm-main` | `inference_osediff_gfpgan_one_step.py`, `inference_refldm_ddim_img2img_4_8step.py`, `results_improvement6_multistep/refldm_ddim4_8_concert1-6_20260604_133432` |
 
 ## Data and Model Notice
 
@@ -110,3 +129,4 @@ The Huawei `concert` dataset, model checkpoints, and full batch result directori
 - Built a FaceMe-style reference expansion workflow with Arc2Face/ControlNet generation and ArcFace identity filtering, producing 162 same-identity reference images for 6 identities.
 - Diagnosed key failure modes including non-square resize distortion, weak noise2img structure constraints, unstable generated references, and reference-count distribution mismatch.
 - Added CFG sweeps, comparison-sheet generation, reference filtering, and GPU memory-bound testing to support systematic ablation and manual selection.
+- Compared fast one-step ReF-OSEDiff against 4-step / 8-step ReF-LDM DDIM img2img, finding that DDIM-4 gives the strongest current quality-speed tradeoff for reducing one-step block artifacts.
